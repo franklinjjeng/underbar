@@ -106,6 +106,21 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var results = [array[0]];
+    var match = false;
+    for (var i = 1; i < array.length; i++) {
+      for (var j = 0; j < results.length; j++) {
+        if (results[j] === array[i]) {
+          match = true;
+          break;
+        }
+      }
+      if (match != true) {
+        results.push(array[i]);
+      }
+      match = false;
+    }
+    return results;
   };
 
 
