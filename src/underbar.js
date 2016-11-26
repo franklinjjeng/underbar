@@ -390,6 +390,18 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var result = [];
+    var indexedValues = [];
+    var randomize = Math.floor(Math.random() * 100);
+    _.each(array, function(value) {
+      indexedValues.push([value, randomize]);
+      randomize = Math.floor(Math.random() * 100);
+    });
+    indexedValues.sort((a, b) => (a[1] - b[1]));
+    _.each(indexedValues, function(value) {
+      result.push(value[0]);
+    });
+    return result;
   };
 
 
