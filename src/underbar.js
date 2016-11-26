@@ -265,7 +265,7 @@
   _.extend = function(obj) {
     var args = Array.prototype.slice.call(arguments);
     var results = {};
-    if (arguments.length === 0 || (args.length === 1 && args[0].length === undefined)) {
+    if (Object.keys(args[0]).length === 0 && Object.keys(args[1]).length === 0) {
       return arguments[0];
     }
     for (var i = 0; i < args.length; i++) {
@@ -279,9 +279,6 @@
   // exists in obj
   _.defaults = function(obj) {
     var args = Array.prototype.slice.call(arguments);
-    if (arguments.length === 0 || (args.length === 1 && args[0].length === undefined)) {
-      return args[0];
-    }
     for (var i = 0; i < args.length; i++) {
       for (var key in args[i]) {
         if (arguments[0][key] === undefined) {
