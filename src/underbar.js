@@ -263,8 +263,18 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    var args = Array.prototype.slice.call(arguments);
+    var results = {};
+    if (arguments.length === 0 || (args.length === 1 && args[0].length === undefined)) {
+      return arguments[0];
+    }
+    for (var i = 0; i < args.length; i++) {
+      for (var key in args[i])
+        results[key] = args[i][key];
+    }
+    return results;
   };
-
+  
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
