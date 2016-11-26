@@ -274,7 +274,7 @@
     }
     return results;
   };
-  
+
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
@@ -333,6 +333,35 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var alreadyCalled = false;
+    var result;
+    var previousArgs = [];
+    var sameArray;
+    // adding compareArray here specifically for visual purposes as it's called later
+    // would normally be outside of a function
+    function compareArray (array1, array2) {
+      for (var i = 0; i < array1.length; i++) {
+        if (array1[i] != array2[i]) {
+          return false
+        }
+      }
+      return array1.length === array2.length ? true : false;
+    }
+    
+    return function() {
+      var args = Array.prototype.slice.call(arguments);
+
+      if (alreadyCalled && Array.isArray(previousArgs[0]) && Array.isArray(args[0])) {
+          sameArray = compareArray(previousArgs[0], args[0]);
+      }
+      if (alreadyCalled && (previousArgs[0] === args[0] || sameArray)) {
+        return result;
+      }
+      result = func.apply(this, arguments);
+      alreadyCalled = true;
+      previousArgs = args.slice(0, args.length);
+      return result;
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
