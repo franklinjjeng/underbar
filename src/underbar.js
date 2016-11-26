@@ -278,6 +278,18 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var args = Array.prototype.slice.call(arguments);
+    if (arguments.length === 0 || (args.length === 1 && args[0].length === undefined)) {
+      return args[0];
+    }
+    for (var i = 0; i < args.length; i++) {
+      for (var key in args[i]) {
+        if (arguments[0][key] === undefined) {
+          arguments[0][key] = args[i][key]; //need to make direct modifications to 'destination'
+        }
+      }
+    }
+    return arguments[0];
   };
 
 
